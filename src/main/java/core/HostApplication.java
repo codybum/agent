@@ -8,10 +8,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.util.tracker.ServiceTracker;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class HostApplication
 {
@@ -22,12 +19,24 @@ public class HostApplication
     public HostApplication()
     {
         System.setProperty("felix.fileinstall.dir", "/Users/cody/IdeaProjects/firstosgi/target/");
+        System.setProperty("felix.fileinstall.noInitialDelay", "true");
+        System.setProperty("felix.fileinstall.poll", "1000");
+
+        System.out.println("Building OSGi Framework");
+
         // Create a configuration property map.
         Map configMap = new HashMap();
         // Export the host provided service interface package.
         configMap.put(Constants.FRAMEWORK_SYSTEMPACKAGES_EXTRA,
                 "core.command; version=1.0.0");
-        configMap.put("felix.auto.deploy.dir","/Users/cody/IdeaProjects/firstosgi/target/");
+
+        // make sure the cache is cleaned
+        configMap.put(Constants.FRAMEWORK_STORAGE_CLEAN, Constants.FRAMEWORK_STORAGE_CLEAN_ONFIRSTINIT);
+
+        // more properties available at: http://felix.apache.org/documentation/subprojects/apache-felix-service-component-runtime.html
+        configMap.put("ds.showtrace", "true");
+        configMap.put("ds.showerrors", "true");
+
 
         // Create host activator;
         m_activator = new HostActivator();
@@ -46,8 +55,16 @@ public class HostApplication
             //m_felix.getBundleContext().installBundle("/Users/cody/IdeaProjects/firstosgi/firstosgi-1.0-SNAPSHOT.jar");
             BundleContext bc = m_felix.getBundleContext();
 
-            m_felix.getBundleContext().installBundle("file:/Users/cody/IdeaProjects/firstosgi/target/firstosgi-1.0-SNAPSHOT.jar");
+            bc.installBundle("file:/Users/cody/IdeaProjects/firstosgi/target/firstosgi-1.0-SNAPSHOT.jar");
 
+
+            //installedBundles.add(context.installBundle("file:./Sandbox/osgiTest/module-a/target/module-a-1.0-SNAPSHOT.jar"));
+
+            for (Bundle bundle : m_activator.getBundles()) {
+                if (bundle.getHeaders().get(Constants.FRAGMENT_HOST) == null) {
+                    bundle.start();
+                }
+            }
 
         }
         catch (Exception ex)
