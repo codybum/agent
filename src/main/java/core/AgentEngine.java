@@ -14,9 +14,18 @@ public class AgentEngine
         HostApplication ha = new HostApplication();
         ha.execute("test","test");
 
+        /*
         for(Bundle b : ha.getInstalledBundles()) {
             System.out.println(b.getBundleId());
 
         }
+        */
+
+        /*
+        while(true) {
+            ha.printb();
+            Thread.sleep(5000);
+        }
+        */
     }
 }

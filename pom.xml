@@ -59,28 +59,20 @@
         <version>5.6.10</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.apache.felix/org.apache.felix.gogo.command -->
+    <!-- https://mvnrepository.com/artifact/org.apache.felix/org.apache.felix.configadmin -->
+    <!--
     <dependency>
         <groupId>org.apache.felix</groupId>
-        <artifactId>org.apache.felix.gogo.command</artifactId>
-        <version>1.0.2</version>
+        <artifactId>org.apache.felix.configadmin</artifactId>
+        <version>1.9.2</version>
     </dependency>
+    -->
 
-    <!-- https://mvnrepository.com/artifact/org.apache.felix/org.apache.felix.gogo.runtime -->
     <dependency>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>org.apache.felix.gogo.runtime</artifactId>
-        <version>1.0.12</version>
-        <scope>provided</scope>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.cm</artifactId>
+        <version>1.6.0</version>
     </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.apache.felix/org.apache.felix.gogo.shell -->
-    <dependency>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>org.apache.felix.gogo.shell</artifactId>
-        <version>1.0.0</version>
-    </dependency>
-
 
 </dependencies>
 <build>

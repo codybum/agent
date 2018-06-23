@@ -6,6 +6,9 @@ import org.apache.felix.framework.util.FelixConstants;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
+import org.osgi.framework.ServiceReference;
+import org.osgi.service.cm.Configuration;
+import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.util.tracker.ServiceTracker;
 
 import java.util.*;
@@ -37,6 +40,8 @@ public class HostApplication
         configMap.put("ds.showtrace", "true");
         configMap.put("ds.showerrors", "true");
 
+        //port
+        configMap.put("org.osgi.service.http.port", "8181");
 
         // Create host activator;
         m_activator = new HostActivator();
@@ -52,19 +57,59 @@ public class HostApplication
             m_felix = new Felix(configMap);
             // Now start Felix instance.
             m_felix.start();
+
+            //buildConfig();
+
+
+
             //m_felix.getBundleContext().installBundle("/Users/cody/IdeaProjects/firstosgi/firstosgi-1.0-SNAPSHOT.jar");
             BundleContext bc = m_felix.getBundleContext();
 
-            bc.installBundle("file:/Users/cody/IdeaProjects/firstosgi/target/firstosgi-1.0-SNAPSHOT.jar");
+            bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/org.apache.felix.scr-2.1.0.jar");
+            bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/org.apache.felix.log-1.0.1.jar");
+            bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/org.apache.felix.configadmin-1.9.2.jar");
+            bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/org.apache.felix.eventadmin-1.5.0.jar");
+            bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/org.apache.felix.http.servlet-api-1.1.2.jar");
+            bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/org.apache.felix.http.api-3.0.0.jar");
 
 
-            //installedBundles.add(context.installBundle("file:./Sandbox/osgiTest/module-a/target/module-a-1.0-SNAPSHOT.jar"));
+            bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/org.apache.felix.http.jetty-4.0.0.jar").start();
+            bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/org.apache.felix.webconsole-4.3.4-all.jar").start();
+
+            //bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/activemq-osgi-5.15.4.jar");
+
+            bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/library-1.0-SNAPSHOT.jar");
+
+            bc.installBundle("file:/Users/cody/IdeaProjects/controller/target/controller-1.0-SNAPSHOT.jar");
+
+            //bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/");
+
+            //bc.installBundle("file:/Users/cody/IdeaProjects/firstosgi/target/firstosgi-1.0-SNAPSHOT.jar");
+            //bc.installBundle("file:/Users/cody/IdeaProjects/firstosgi/target/firstosgi-1.0-SNAPSHOT.jar");
+            //bc.installBundle("file:/Users/cody/IdeaProjects/aem-osgi-annotation-demo/core/target/osgi-annotation-demo.core-1.0-SNAPSHOT.jar");
+
+            //buildConfig();
 
             for (Bundle bundle : m_activator.getBundles()) {
                 if (bundle.getHeaders().get(Constants.FRAGMENT_HOST) == null) {
+
                     bundle.start();
+
+                    /*
+                    System.out.println(bundle.getState());
+                    System.out.println(bundle.getBundleId());
+                    System.out.println(bundle.getLocation());
+                    System.out.println(bundle.getVersion());
+
+                    System.out.println("---");
+                    */
                 }
             }
+
+
+            //bc.installBundle("file:/Users/cody/IdeaProjects/firstosgi/target/firstosgi-1.0-SNAPSHOT.jar");
+            //bc.installBundle("file:/Users/cody/IdeaProjects/firstosgi/firstosgi-1.0-SNAPSHOT.jar");
+
 
         }
         catch (Exception ex)
@@ -73,12 +118,46 @@ public class HostApplication
             ex.printStackTrace();
         }
 
-
         m_tracker = new ServiceTracker(
                 m_activator.getContext(), Command.class.getName(), null);
         m_tracker.open();
 
+    }
 
+
+    private String getState(int stateCode) {
+        String returnString = null;
+
+        switch (stateCode) {
+            case 1:  returnString= "Uninstalled";
+                break;
+            case 2:  returnString= "Installed";
+                break;
+            case 4:  returnString= "Resolved";
+                break;
+            case 8:  returnString= "Starting";
+                break;
+            case 16:  returnString= "Stopping";
+                break;
+            case 32:  returnString= "Active";
+                break;
+            default: returnString = "Unknown";
+                break;
+        }
+        return returnString;
+    }
+
+    public void printb() {
+        for (Bundle bundle : m_activator.getBundles()) {
+            if (bundle.getHeaders().get(Constants.FRAGMENT_HOST) == null) {
+                System.out.println("state:" + getState(bundle.getState()));
+                System.out.println("id:" + bundle.getBundleId());
+                System.out.println("location:" + bundle.getLocation());
+                System.out.println("version:" + bundle.getVersion());
+
+                System.out.println("---");
+            }
+        }
     }
 
     public Bundle[] getInstalledBundles()
