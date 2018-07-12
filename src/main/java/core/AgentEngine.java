@@ -1,7 +1,10 @@
 package core;
 
 
+import core.command.Command;
 import org.osgi.framework.Bundle;
+
+import java.net.URL;
 
 public class AgentEngine
 {
@@ -11,8 +14,9 @@ public class AgentEngine
         System.out.println("\nWelcome to My Launcher");
         System.out.println("======================\n");
 
+
         HostApplication ha = new HostApplication();
-        ha.execute("test","test");
+        //ha.execute("test","test");
 
         /*
         for(Bundle b : ha.getInstalledBundles()) {

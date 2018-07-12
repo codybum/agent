@@ -36,21 +36,7 @@
 </properties>
 
 <dependencies>
-    <dependency>
-        <groupId>com.researchworx.cresco</groupId>
-        <artifactId>cresco-plugin-library</artifactId>
-        <version>${cresco.plugin.library.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>ch.qos.logback</groupId>
-        <artifactId>logback-classic</artifactId>
-        <version>${logback.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>2.5</version>
-    </dependency>
+
 
     <!-- https://mvnrepository.com/artifact/org.apache.felix/org.apache.felix.main -->
     <dependency>
@@ -59,20 +45,52 @@
         <version>5.6.10</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.apache.felix/org.apache.felix.configadmin -->
-    <!--
-    <dependency>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>org.apache.felix.configadmin</artifactId>
-        <version>1.9.2</version>
-    </dependency>
-    -->
-
     <dependency>
         <groupId>org.osgi</groupId>
         <artifactId>org.osgi.service.cm</artifactId>
         <version>1.6.0</version>
     </dependency>
+
+    <!--
+    <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.framework</artifactId>
+        <version>1.9.0</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>org.apache.felix.http.servlet-api</artifactId>
+        <version>1.1.2</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>org.apache.felix.http.jetty</artifactId>
+        <version>4.0.0</version>
+    </dependency>
+
+    <dependency>
+        <groupId>com.eclipsesource.jaxrs</groupId>
+        <artifactId>jersey-all</artifactId>
+        <version>2.22.1</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>org.apache.felix.configadmin</artifactId>
+        <version>1.9.2</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>org.apache.felix.scr</artifactId>
+        <version>2.1.0</version>
+    </dependency>
+
+
+-->
+
 
 </dependencies>
 <build>
@@ -105,8 +123,12 @@
             </configuration>
         </plugin>
         <plugin>
+
             <artifactId>maven-assembly-plugin</artifactId>
             <configuration>
+                <descriptors>
+                    <descriptor>src/assemble/bin.xml</descriptor>
+                </descriptors>
                 <archive>
                     <manifest>
                         <mainClass>core.AgentEngine</mainClass>
@@ -123,8 +145,11 @@
                 </descriptorRefs>
                 <finalName>${project.artifactId}-${project.version}</finalName>
                 <appendAssemblyId>false</appendAssemblyId>
+
             </configuration>
+
             <executions>
+
                 <execution>
                     <id>make-assembly</id>
                     <phase>package</phase>
@@ -132,8 +157,11 @@
                         <goal>single</goal>
                     </goals>
                 </execution>
+
             </executions>
+
         </plugin>
+
     </plugins>
     <finalName>${project.artifactId}-${project.version}</finalName>
 </build>
