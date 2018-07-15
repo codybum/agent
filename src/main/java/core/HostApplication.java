@@ -99,6 +99,9 @@ public class HostApplication
 
             installInternalBundleJars(bc,"org.apache.felix.http.jetty-4.0.0.jar").start();
 
+            //installInternalBundleJars(bc,"hibernate-osgi-5.3.2.Final.jar").start();
+
+
             installInternalBundleJars(bc,"jersey-all-2.22.2.jar").start();
             //Bundle dashboard = installInternalBundleJars(bc,"dashboard-1.0-SNAPSHOT.jar");
 
@@ -111,6 +114,7 @@ public class HostApplication
 
 
             installInternalBundleJars(bc,"library-1.0-SNAPSHOT.jar").start();
+
 
             installInternalBundleJars(bc,"controller-1.0-SNAPSHOT.jar").start();
 
