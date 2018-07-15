@@ -3,7 +3,6 @@ package core;
 
 import core.command.Command;
 import org.osgi.framework.Bundle;
-import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import java.io.File;
 import java.net.URL;
