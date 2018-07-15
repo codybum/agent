@@ -7,9 +7,10 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceReference;
-import org.osgi.service.cm.Configuration;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.util.tracker.ServiceTracker;
+
+
 
 import java.io.InputStream;
 import java.net.URL;
@@ -46,7 +47,7 @@ public class HostApplication
         configMap.put("ds.showtrace", "true");
         configMap.put("ds.showerrors", "true");
 
-        configMap.put("felix.log.level","99");
+        configMap.put("felix.log.level","1");
 
         //port
         configMap.put("org.osgi.service.http.port", "8181");
@@ -71,57 +72,84 @@ public class HostApplication
             //buildConfig();
 
 
-
-            //m_felix.getBundleContext().installBundle("/Users/cody/IdeaProjects/firstosgi/firstosgi-1.0-SNAPSHOT.jar");
             BundleContext bc = m_felix.getBundleContext();
 
-            //bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/org.apache.felix.log-1.0.1.jar").start();
-            //bc.installBundle("file:/Users/cody/IdeaProjects/felix-framework-5.6.10/bundle/org.osgi.service.cm-1.6.0.jar").start();
-            //Bundle loggerService = bc.installBundle("file:/Users/cody/IdeaProjects/felix-framework-5.6.10/bundle/pax-logging-service-1.10.1.jar");
-            //Bundle loggerAPI = bc.installBundle("file:/Users/cody/IdeaProjects/felix-framework-5.6.10/bundle/pax-logging-api-1.10.1.jar");
-            //loggerService.start();
-            //loggerAPI.start();
-            //bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/org.apache.felix.log-1.0.1.jar").start();
-           // bc.installBundle("file:/Users/cody/IdeaProjects/felix-framework-5.6.10/bundle/logger-1.0-SNAPSHOT.jar").start();
+            installInternalBundleJars(bc,"org.apache.felix.configadmin-1.9.2.jar").start();
 
-            //bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/org.apache.felix.http.servlet-api-1.1.2.jar").start();
-
+            installInternalBundleJars(bc,"logger-1.0-SNAPSHOT.jar").start();
 
             installInternalBundleJars(bc,"org.osgi.service.cm-1.6.0.jar").start();
             Bundle loggerService = installInternalBundleJars(bc,"pax-logging-service-1.10.1.jar");
             Bundle loggerAPI = installInternalBundleJars(bc,"pax-logging-api-1.10.1.jar");
             loggerService.start();
             loggerAPI.start();
+
+            installInternalBundleJars(bc,"pax-logging-log4j2-1.10.1.jar").start();
+
+            //Thread.sleep(5000);
+
+            //System.exit(0);
+            installInternalBundleJars(bc,"org.apache.felix.metatype-1.2.0.jar").start();
+
+            installInternalBundleJars(bc,"osgi.cmpn-7.0.0.jar");
+
             installInternalBundleJars(bc,"org.apache.felix.http.servlet-api-1.1.2.jar").start();
+            installInternalBundleJars(bc,"org.apache.felix.http.api-3.0.0.jar").start();
+
             installInternalBundleJars(bc,"org.apache.felix.http.jetty-4.0.0.jar").start();
-            installInternalBundleJars(bc,"jersey-all-2.22.1.jar").start();
-            installInternalBundleJars(bc,"org.apache.felix.configadmin-1.9.2.jar").start();
+
+            installInternalBundleJars(bc,"jersey-all-2.22.2.jar").start();
+            //Bundle dashboard = installInternalBundleJars(bc,"dashboard-1.0-SNAPSHOT.jar");
+
+            installInternalBundleJars(bc,"org.apache.felix.webconsole-4.3.4-all.jar").start();
+
+            installInternalBundleJars(bc,"org.apache.felix.gogo.runtime-1.1.0.jar").start();
+            installInternalBundleJars(bc,"org.apache.felix.gogo.command-1.0.2.jar").start();
+
             installInternalBundleJars(bc,"org.apache.felix.scr-2.1.0.jar").start();
+
+
             installInternalBundleJars(bc,"library-1.0-SNAPSHOT.jar").start();
+
             installInternalBundleJars(bc,"controller-1.0-SNAPSHOT.jar").start();
 
 
+
+            //Bundle dashboard = installInternalBundleJars(bc,"dashboard-1.0-SNAPSHOT.jar");
+            //dashboard.start();
+            /*
+            bc.installBundle("file:/Users/cody/IdeaProjects/felix-framework-5.6.10/bundle/org.osgi.service.cm-1.6.0.jar").start();
+            Bundle loggerService = bc.installBundle("file:/Users/cody/IdeaProjects/felix-framework-5.6.10/bundle/pax-logging-service-1.10.1.jar");
+            Bundle loggerAPI = bc.installBundle("file:/Users/cody/IdeaProjects/felix-framework-5.6.10/bundle/pax-logging-api-1.10.1.jar");
+            loggerService.start();
+            loggerAPI.start();
+
+            installInternalBundleJars(bc,"osgi.cmpn-7.0.0.jar");
+
+
+            bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/org.apache.felix.http.servlet-api-1.1.2.jar").start();
+
             ////bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/org.apache.felix.http.api-3.0.0.jar").start();
-            //bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/org.apache.felix.http.jetty-4.0.0.jar").start();
+            bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/org.apache.felix.http.jetty-4.0.0.jar").start();
 
 
-            //bc.installBundle("file:/Users/cody/IdeaProjects/felix-framework-5.6.10/bundle/jersey-all-2.25.1.jar").start();
+            ////bc.installBundle("file:/Users/cody/IdeaProjects/felix-framework-5.6.10/bundle/jersey-all-2.25.1.jar").start();
 
-            //bc.installBundle("file:/Users/cody/IdeaProjects/felix-framework-5.6.10/bundle/t/jersey-all-2.22.1.jar").start();
-
-
-            //bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/org.apache.felix.webconsole-4.3.4-all.jar").start();
+            bc.installBundle("file:/Users/cody/IdeaProjects/felix-framework-5.6.10/bundle/jersey-all-2.22.1.jar").start();
 
 
-            //bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/org.apache.felix.configadmin-1.9.2.jar").start();
+            bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/org.apache.felix.webconsole-4.3.4-all.jar").start();
 
 
-            //bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/org.apache.felix.scr-2.1.0.jar").start();
+            bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/org.apache.felix.configadmin-1.9.2.jar").start();
 
-            //bc.installBundle("file:/Users/cody/IdeaProjects/felix-framework-5.6.10/bundle/library-1.0-SNAPSHOT.jar").start();
 
-            //bc.installBundle("file:/Users/cody/IdeaProjects/controller/target/controller-1.0-SNAPSHOT.jar").start();
+            bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/org.apache.felix.scr-2.1.0.jar").start();
 
+            bc.installBundle("file:/Users/cody/IdeaProjects/felix-framework-5.6.10/bundle/library-1.0-SNAPSHOT.jar").start();
+
+            bc.installBundle("file:/Users/cody/IdeaProjects/controller/target/controller-1.0-SNAPSHOT.jar").start();
+*/
 
             /*
             bc.installBundle("file:/Users/cody/IdeaProjects/agent/jars/org.apache.felix.configadmin-1.9.2.jar").start();
@@ -220,8 +248,6 @@ public class HostApplication
 
         return installedBundle;
     }
-
-
     private boolean startInternalBundleJars(Bundle bundle) {
 
         try {
