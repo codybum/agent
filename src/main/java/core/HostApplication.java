@@ -75,7 +75,8 @@ public class HostApplication
             BundleContext bc = m_felix.getBundleContext();
 
             installInternalBundleJars(bc,"org.apache.felix.configadmin-1.9.2.jar").start();
-
+            installInternalBundleJars(bc,"core-1.0-SNAPSHOT.jar").start();
+            /*
             installInternalBundleJars(bc,"logger-1.0-SNAPSHOT.jar").start();
 
             installInternalBundleJars(bc,"org.osgi.service.cm-1.6.0.jar").start();
@@ -85,7 +86,7 @@ public class HostApplication
             loggerAPI.start();
 
             installInternalBundleJars(bc,"pax-logging-log4j2-1.10.1.jar").start();
-
+*/
             //Thread.sleep(5000);
 
             //System.exit(0);
