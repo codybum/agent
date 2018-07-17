@@ -110,6 +110,8 @@ public class HostApplication
             installInternalBundleJars(bc,"org.apache.felix.gogo.runtime-1.1.0.jar").start();
             installInternalBundleJars(bc,"org.apache.felix.gogo.command-1.0.2.jar").start();
 
+            installInternalBundleJars(bc,"org.apache.felix.bundlerepository-2.0.10.jar").start();
+
             installInternalBundleJars(bc,"org.apache.felix.scr-2.1.0.jar").start();
 
 
