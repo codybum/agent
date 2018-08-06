@@ -2,6 +2,7 @@ package core;
 
 
 import core.command.Command;
+import core.command.DiscoveryCrypto;
 import org.osgi.framework.Bundle;
 
 import java.io.File;
@@ -15,6 +16,31 @@ public class AgentEngine
         // Print welcome banner.
         //System.out.println("\nWelcome to My Launcher");
         //System.out.println("======================\n");
+
+        String verifyMessage = "DISCOVERY_MESSAGE_VERIFIED";
+        String discoveryValidator = "tester";
+        /*
+        String verifyMessage = "DISCOVERY_MESSAGE_VERIFIED";
+                String discoveryValidator = rme.getParam("discovery_validator");
+                String decryptedString = discoveryCrypto.decrypt(discoveryValidator,discoverySecret);
+
+         */
+
+        /*
+        DiscoveryCrypto dc = new DiscoveryCrypto();
+
+        String enc = dc.encrypt(verifyMessage,discoveryValidator);
+        System.out.println("enc: " + enc);
+
+        System.out.println(dc.decrypt(enc,discoveryValidator));
+
+        String test = "+MhIeU5DQx4m9U68XLlylKuRGJItWVuBkuxIvaXaguk=";
+
+        System.out.println(dc.decrypt(test,discoveryValidator));
+
+
+        System.exit(0);
+*/
 
         System.setProperty("org.apache.commons.logging.Log",
                 "org.apache.commons.logging.impl.NoOpLog");
