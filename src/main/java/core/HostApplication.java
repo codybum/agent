@@ -1,13 +1,10 @@
 package core;
 
-import core.command.Command;
 import org.apache.felix.framework.Felix;
 import org.apache.felix.framework.util.FelixConstants;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
-import org.osgi.framework.ServiceReference;
-import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.util.tracker.ServiceTracker;
 
 
@@ -119,10 +116,6 @@ public class HostApplication
             ex.printStackTrace();
         }
 
-        m_tracker = new ServiceTracker(
-                m_activator.getContext(), Command.class.getName(), null);
-        m_tracker.open();
-
     }
 
     private Bundle installInternalBundleJars(BundleContext context, String bundleName) {
@@ -219,34 +212,6 @@ public class HostApplication
         return m_activator.getBundles();
     }
 
-    public boolean execute(String name, String commandline)
-    {
-
-
-        // See if any of the currently tracked command services
-        // match the specified command name, if so then execute it.
-        Object[] services = m_tracker.getServices();
-
-        for (int i = 0; (services != null) && (i < services.length); i++)
-        {
-            System.out.println(services[i].getClass().toString());
-            try
-            {
-                if (((Command) services[i]).getName().equals(name))
-                {
-                    return ((Command) services[i]).execute(commandline);
-                }
-            }
-            catch (Exception ex)
-            {
-                // Since the services returned by the tracker could become
-                // invalid at any moment, we will catch all exceptions, log
-                // a message, and then ignore faulty services.
-                System.err.println(ex);
-            }
-        }
-        return false;
-    }
 
     public void shutdownApplication()
     {
