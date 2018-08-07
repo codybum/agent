@@ -46,8 +46,17 @@ public class HostApplication
 
         configMap.put("felix.log.level","1");
 
+        String httpPort = System.getProperty("port");
+        if(httpPort == null) {
+            httpPort = System.getenv("CRESCO_port");
+        }
+        if(httpPort == null) {
+            httpPort = "8181";
+        }
+
+
         //port
-        configMap.put("org.osgi.service.http.port", "8181");
+        configMap.put("org.osgi.service.http.port", httpPort);
 
         configMap.put("obr.repository.url","http://felix.apache.org/obr/releases.xml");
 
@@ -61,11 +70,21 @@ public class HostApplication
         try
         {
 
+            //String httpPort = System.getProperty("CRESCO_port");
 
-           boolean enableHttp = Boolean.parseBoolean(System.getProperty("enable_http","false"));
+            boolean enableHttp = false;
+            if(System.getenv("CRESCO_enable_http") != null) {
+                enableHttp = Boolean.parseBoolean(System.getenv("CRESCO_enable_http"));
+            } else {
+                enableHttp = Boolean.parseBoolean(System.getProperty("enable_http","false"));
+            }
 
-           boolean enableConsole = Boolean.parseBoolean(System.getProperty("enable_console","false"));
-
+           boolean enableConsole = false;
+            if(System.getenv("CRESCO_enable_console") != null) {
+                enableConsole = Boolean.parseBoolean(System.getenv("CRESCO_enable_console"));
+            } else {
+                enableConsole = Boolean.parseBoolean(System.getProperty("enable_console", "false"));
+            }
 
             // Now create an instance of the framework with
             // our configuration properties.
