@@ -119,10 +119,7 @@ public class HostApplication
 
             installInternalBundleJars(bc,"org.apache.felix.scr-2.1.0.jar").start();
 
-
             installInternalBundleJars(bc,"library-1.0-SNAPSHOT.jar").start();
-
-
             installInternalBundleJars(bc,"controller-1.0-SNAPSHOT.jar").start();
 
 
